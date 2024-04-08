@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIDEO CANVAS</title> 
+    <style> 
+        body {
+            background: black;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 640px;
+            height: 360px;
+            transform: translate(-50%, -50%);
+        }
+    </style> 
+</head>
+<body>
+    <canvas id="canvas"></canvas> 
+    <video id="video" controls loop> 
+        <source src="D:/video.webm" type="video/webm"> 
+        <source src="D:/video.ogg" type="video/ogg"> 
+        <source src="D:/video.mp4" type="video/mp4"> 
+    </video> 
+
+    <script> 
+        document.addEventListener('DOMContentLoaded', function(){
+            var v = document.getElementById('video');
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+         
+            canvas.width = v.clientWidth;
+            canvas.height = v.clientHeight;
+         
+            v.addEventListener('play', function(){
+                draw(this, context, canvas.width, canvas.height);
+            }, false);
+         
+        }, false);
+         
+        function draw(v, c, w, h) {
+            if(v.paused || v.ended)    return false;
+            c.drawImage(v, 0, 0, w, h);
+            setTimeout(draw, 20, v, c, w, h);
+        }
+    </script> 
+</body>
+</html>
